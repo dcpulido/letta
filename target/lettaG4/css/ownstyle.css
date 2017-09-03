@@ -1,0 +1,37 @@
+/* SLIDER STYLE */
+h2{
+	font-family: "Dosis-Medium";
+}
+
+#slideList h3{
+	font-family: "Dosis-Medium";
+	text-align: center;
+	position: relative;
+	z-index: 2;
+	top: -45px;
+	color: white;
+	width: 100vw;
+	background-color: #ed645c;
+	padding: 5px;
+}
+
+.offers h2{
+	text-align: center;
+	padding-top: 10px;
+}
+
+.text {
+    width: 40vw;
+    padding: 10px;
+    color: #808080;
+    border: 0px;
+}
+
+button {
+    background: transparent;
+    padding: 9px;
+    box-shadow: unset;
+    border: 1px solid white;
+    color: white;
+    width: 10vw;
+}

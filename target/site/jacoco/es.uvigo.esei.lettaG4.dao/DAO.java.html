@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>DAO.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">letta</a> &gt; <a href="index.source.html" class="el_package">es.uvigo.esei.lettaG4.dao</a> &gt; <span class="el_source">DAO.java</span></div><h1>DAO.java</h1><pre class="source lang-java linenums">package es.uvigo.esei.lettaG4.dao;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
+/**
+ * Simple base class for DAO (Data Access Object) classes. This super-class is
+ * responsible for providing a {@link java.sql.Connection} to its sub-classes.
+ *  
+ * @author Miguel Reboiro Jato
+ *
+ */
+public abstract class DAO {
+<span class="fc" id="L21">	private final static Logger LOG = Logger.getLogger(DAO.class.getName());</span>
+<span class="fc" id="L22">	private final static String JNDI_NAME = &quot;java:/comp/env/jdbc/lettaG4&quot;; </span>
+	
+	private DataSource dataSource;
+	
+	/**
+	 * Constructs a new instance of {@link DAO}.
+	 */
+<span class="nc" id="L29">	public DAO() {</span>
+		Context initContext;
+		try {
+<span class="nc" id="L32">			initContext = new InitialContext();</span>
+			
+<span class="nc" id="L34">			this.dataSource = (DataSource) initContext.lookup(JNDI_NAME);</span>
+<span class="nc" id="L35">		} catch (NamingException e) {</span>
+<span class="nc" id="L36">			LOG.log(Level.SEVERE, &quot;Error initializing DAO&quot;, e);</span>
+<span class="nc" id="L37">			throw new RuntimeException(e);</span>
+		}
+<span class="nc" id="L39">	}</span>
+	
+	/**
+	 * Returns an open {@link java.sql.Connection}.
+	 * 
+	 * @return an open {@link java.sql.Connection}.
+	 * @throws SQLException if an error happens while establishing the
+	 * connection with the database.
+	 */
+	protected Connection getConnection() throws SQLException {
+<span class="nc" id="L49">		return this.dataSource.getConnection();</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

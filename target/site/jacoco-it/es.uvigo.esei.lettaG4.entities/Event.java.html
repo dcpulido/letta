@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Event.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">letta</a> &gt; <a href="index.source.html" class="el_package">es.uvigo.esei.lettaG4.entities</a> &gt; <span class="el_source">Event.java</span></div><h1>Event.java</h1><pre class="source lang-java linenums">package es.uvigo.esei.lettaG4.entities;
+
+import java.sql.Timestamp;
+import java.lang.IllegalArgumentException;
+import java.util.List;
+
+/**
+ * An entity that represents a event.
+ * 
+ */
+public class Event {
+
+<span class="fc" id="L13">	public static String[] categorias = { &quot;Deportes&quot;, &quot;Cine&quot;, &quot;Musica&quot;, &quot;Teatro&quot;, &quot;Literatura&quot;, &quot;Television&quot;, &quot;Otros&quot; };</span>
+
+	private int id;
+	private User creador;
+	private List&lt;User&gt; asistentes;
+	private String name;
+	private String description;
+	private String place;
+	private String categoria;
+	private Timestamp date;
+	private String foto;
+
+	// Constructor needed for the JSON conversion
+<span class="nc" id="L26">	Event() {</span>
+<span class="nc" id="L27">	}</span>
+
+	/**
+	 *
+	 * @param id
+	 *            identifier of the Event.
+	 * @param name
+	 *            name of the Event.
+	 * @param description
+	 *            description of the Event.
+	 */
+<span class="fc" id="L38">	public Event(int id, String name, String description) {</span>
+<span class="fc" id="L39">		this.id = id;</span>
+<span class="fc" id="L40">		this.setName(name);</span>
+<span class="fc" id="L41">		this.setDescription(description);</span>
+<span class="fc" id="L42">	}</span>
+
+	public Event(int id, String name, String description, String place, Timestamp date) {
+<span class="fc" id="L45">		this(id, null, null, name, description, &quot;Otros&quot;, place, date, null);</span>
+<span class="fc" id="L46">	}</span>
+
+	public Event(int id, User creador, List&lt;User&gt; asistentes, String name, String description, String place,
+			Timestamp date) {
+
+<span class="fc" id="L51">		this(id, creador, asistentes, name, description, &quot;Otros&quot;, place, date, null);</span>
+
+<span class="fc" id="L53">	}</span>
+
+	public Event(int id, User creador, List&lt;User&gt; asistentes, String name, String description, String categoria,
+<span class="fc" id="L56">			String place, Timestamp date, String foto) {</span>
+<span class="fc" id="L57">		this.id = id;</span>
+<span class="fc" id="L58">		this.setName(name);</span>
+<span class="fc" id="L59">		this.setDescription(description);</span>
+<span class="fc" id="L60">		this.setPlace(place);</span>
+<span class="fc" id="L61">		this.setCategoria(categoria);</span>
+<span class="fc" id="L62">		this.setTimestamp(date);</span>
+<span class="fc" id="L63">		this.setCreador(creador);</span>
+<span class="fc" id="L64">		this.setAsistentes(asistentes);</span>
+<span class="fc" id="L65">		this.setFoto(foto);</span>
+
+<span class="fc" id="L67">	}</span>
+
+	public static String[] getCategorias() {
+<span class="nc" id="L70">		return categorias;</span>
+	}
+
+	public String getCategoria() {
+<span class="fc" id="L74">		return categoria;</span>
+	}
+
+	public void setCategoria(String categoria) {
+
+<span class="fc" id="L79">		boolean flag = false;</span>
+<span class="fc bfc" id="L80" title="All 2 branches covered.">		for (int i = 0; i &lt; categorias.length; i++) {</span>
+
+<span class="fc bfc" id="L82" title="All 2 branches covered.">			if (categoria.equals(categorias[i])) {</span>
+<span class="fc" id="L83">				this.categoria = categoria;</span>
+<span class="fc" id="L84">				flag = true;</span>
+
+			}
+		}
+<span class="fc bfc" id="L88" title="All 2 branches covered.">		if (flag == false)</span>
+<span class="fc" id="L89">			throw new IllegalArgumentException(&quot;Categoría incorrecta&quot;);</span>
+<span class="fc" id="L90">	}</span>
+
+	public String getFoto() {
+<span class="fc" id="L93">		return foto;</span>
+	}
+
+	public void setFoto(String foto) {
+<span class="fc" id="L97">		this.foto = foto;</span>
+<span class="fc" id="L98">	}</span>
+
+	/**
+	 * Returns the identifier of the Event.
+	 * 
+	 * @return the identifier of the Event.
+	 */
+	public int getId() {
+<span class="fc" id="L106">		return id;</span>
+	}
+
+	/**
+	 * Returns the
+	 * 
+	 * @return the name of the Event.
+	 */
+	public String getName() {
+<span class="fc" id="L115">		return name;</span>
+	}
+
+	public void setCreador(User c) {
+<span class="fc" id="L119">		creador = c;</span>
+<span class="fc" id="L120">	}</span>
+
+	public User getCreador() {
+<span class="fc" id="L123">		return creador;</span>
+	}
+
+	public void setAsistentes(List&lt;User&gt; asistentes) {
+<span class="fc" id="L127">		this.asistentes = asistentes;</span>
+<span class="fc" id="L128">	}</span>
+
+	public List&lt;User&gt; getAsistentes() {
+<span class="fc" id="L131">		return asistentes;</span>
+	}
+
+	/**
+	 * Set the name of this Event.
+	 * 
+	 * @param name
+	 *            the new name of the Event.
+	 * @throws IllegalArgumentException
+	 *             if the {@code name} length is not between 0 and 140.
+	 */
+	public void setName(String name) {
+<span class="pc bpc" id="L143" title="1 of 4 branches missed.">		if (name.length() &lt; 140 &amp;&amp; name.length() &gt; 0) {</span>
+<span class="fc" id="L144">			this.name = name;</span>
+		} else {
+<span class="fc" id="L146">			throw new IllegalArgumentException(&quot;Illegal length&quot;);</span>
+		}
+<span class="fc" id="L148">	}</span>
+
+	/**
+	 * Returns the description of the Event.
+	 * 
+	 * @return the description of the Event.
+	 */
+	public String getDescription() {
+<span class="fc" id="L156">		return description;</span>
+	}
+
+	/**
+	 * Set the description of this Event.
+	 * 
+	 * @param description
+	 *            the new description of the Event.
+	 * @throws IllegalArgumentException
+	 *             if the {@code description} length is not between 0 and 500.
+	 */
+	public void setDescription(String description) {
+<span class="pc bpc" id="L168" title="1 of 4 branches missed.">		if (description.length() &lt; 500 &amp;&amp; description.length() &gt; 0) {</span>
+<span class="fc" id="L169">			this.description = description;</span>
+		} else {
+<span class="fc" id="L171">			throw new IllegalArgumentException();</span>
+		}
+<span class="fc" id="L173">	}</span>
+
+	public String getPlace() {
+<span class="fc" id="L176">		return place;</span>
+	}
+
+	/**
+	 * Set the place of this Event.
+	 * 
+	 * @param place
+	 *            the new place of the Event.
+	 * @throws IllegalArgumentException
+	 *             if the {@code place} length is longer than 140.
+	 */
+	public void setPlace(String place) {
+<span class="fc bfc" id="L188" title="All 2 branches covered.">		if (place.length() &lt; 140) {</span>
+<span class="fc" id="L189">			this.place = place;</span>
+		} else {
+<span class="fc" id="L191">			throw new IllegalArgumentException();</span>
+		}
+<span class="fc" id="L193">	}</span>
+
+	public Timestamp getTimestamp() {
+<span class="fc" id="L196">		return date;</span>
+	}
+
+	public void setTimestamp(Timestamp date) {
+<span class="fc" id="L200">		this.date = date;</span>
+<span class="fc" id="L201">	}</span>
+
+	@Override
+	public int hashCode() {
+<span class="nc" id="L205">		final int prime = 31;</span>
+<span class="nc" id="L206">		int result = 1;</span>
+<span class="nc" id="L207">		result = prime * result + id;</span>
+<span class="nc" id="L208">		return result;</span>
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+<span class="fc bfc" id="L213" title="All 2 branches covered.">		if (this == obj)</span>
+<span class="fc" id="L214">			return true;</span>
+<span class="pc bpc" id="L215" title="1 of 2 branches missed.">		if (obj == null)</span>
+<span class="nc" id="L216">			return false;</span>
+<span class="pc bpc" id="L217" title="1 of 2 branches missed.">		if (getClass() != obj.getClass())</span>
+<span class="nc" id="L218">			return false;</span>
+<span class="fc" id="L219">		Event other = (Event) obj;</span>
+<span class="pc bpc" id="L220" title="1 of 2 branches missed.">		if (id != other.id)</span>
+<span class="nc" id="L221">			return false;</span>
+<span class="fc" id="L222">		return true;</span>
+	} 
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

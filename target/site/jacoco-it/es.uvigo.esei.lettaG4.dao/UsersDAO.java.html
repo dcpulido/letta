@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>UsersDAO.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">letta</a> &gt; <a href="index.source.html" class="el_package">es.uvigo.esei.lettaG4.dao</a> &gt; <span class="el_source">UsersDAO.java</span></div><h1>UsersDAO.java</h1><pre class="source lang-java linenums">package es.uvigo.esei.lettaG4.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.sql.Timestamp;
+import es.uvigo.esei.lettaG4.entities.User;
+
+/**
+ * DAO class for the {@link Person} entities.
+ * 
+ * @author Miguel Reboiro Jato
+ *
+ */
+<span class="nc" id="L21">public class UsersDAO extends DAO {</span>
+<span class="fc" id="L22">	private final static Logger LOG = Logger.getLogger(UsersDAO.class.getName());</span>
+	
+	/**
+	 * Returns a person stored persisted in the system.
+	 * 
+	 * @param id identifier of the person.
+	 * @return a person with the provided identifier.
+	 * @throws DAOException if an error happens while retrieving the person.
+	 * @throws IllegalArgumentException if the provided id does not corresponds
+	 * with any persisted person.
+	 */
+	public User get(int id)
+	throws DAOException, IllegalArgumentException {
+<span class="nc" id="L35">		try (final Connection conn = this.getConnection()) {</span>
+<span class="nc" id="L36">			final String query = &quot;SELECT * FROM users WHERE id=?&quot;;</span>
+			
+<span class="nc" id="L38">			try (final PreparedStatement statement = conn.prepareStatement(query)) {</span>
+<span class="nc" id="L39">				statement.setInt(1, id);</span>
+				
+<span class="nc" id="L41">				try (final ResultSet result = statement.executeQuery()) {</span>
+<span class="nc bnc" id="L42" title="All 2 branches missed.">					if (result.next()) {</span>
+<span class="nc" id="L43">						return rowToEntity(result);</span>
+					} else {
+<span class="nc" id="L45">						throw new IllegalArgumentException(&quot;Invalid id&quot;);</span>
+					}
+<span class="nc bnc" id="L47" title="All 8 branches missed.">				}</span>
+<span class="nc bnc" id="L48" title="All 8 branches missed.">			}</span>
+<span class="nc bnc" id="L49" title="All 8 branches missed.">		} catch (SQLException e) {</span>
+<span class="nc" id="L50">			LOG.log(Level.SEVERE, &quot;Error getting a User&quot;, e);</span>
+<span class="nc" id="L51">			throw new DAOException(e);</span>
+		}
+	}
+	
+	/**
+	 * Returns a list with all the events persisted in the system.
+	 * 
+	 * @return a list with all the events persisted in the system.
+	 * @throws DAOException if an error happens while retrieving the events.
+	 */
+	public List&lt;User&gt; list() throws DAOException {
+<span class="nc" id="L62">		try (final Connection conn = this.getConnection()) {</span>
+<span class="nc" id="L63">			final String query = &quot;SELECT * FROM users&quot;;</span>
+			
+<span class="nc" id="L65">			try (final PreparedStatement statement = conn.prepareStatement(query)) {</span>
+<span class="nc" id="L66">				try (final ResultSet result = statement.executeQuery()) {</span>
+<span class="nc" id="L67">					final List&lt;User&gt; users = new LinkedList&lt;&gt;();</span>
+					
+<span class="nc bnc" id="L69" title="All 2 branches missed.">					while (result.next()) {</span>
+<span class="nc" id="L70">						users.add(rowToEntity(result));</span>
+					}
+					
+<span class="nc" id="L73">					return users;</span>
+<span class="nc bnc" id="L74" title="All 8 branches missed.">				}</span>
+<span class="nc bnc" id="L75" title="All 8 branches missed.">			}</span>
+<span class="nc bnc" id="L76" title="All 8 branches missed.">		} catch (SQLException e) {</span>
+<span class="nc" id="L77">			LOG.log(Level.SEVERE, &quot;Error listing users&quot;, e);</span>
+<span class="nc" id="L78">			throw new DAOException(e);</span>
+		}
+	}
+	
+	/**
+	 * Persists a new Event in the system. An identifier will be assigned
+	 * automatically to the new Event.
+	 * 
+	 * @param name name of the new Event. Can't be {@code null}.
+	 * @param description description of the new Event. Can't be {@code null}.
+	 * @return a {@link Event} entity representing the persisted Event.
+	 * @throws DAOException if an error happens while persisting the new Event.
+	 * @throws IllegalArgumentException if the name or description are {@code null}.
+	 */
+	public User add(String name, String email,String pass)
+	throws DAOException, IllegalArgumentException {
+<span class="nc bnc" id="L94" title="All 6 branches missed.">		if (name == null || email == null || pass==null) {</span>
+<span class="nc" id="L95">			throw new IllegalArgumentException(&quot;name email and pass can't be null&quot;);</span>
+		}
+		
+<span class="nc" id="L98">		try (Connection conn = this.getConnection()) {</span>
+<span class="nc" id="L99">			final String query = &quot;INSERT INTO Users VALUES(null, ?, ?, ?)&quot;;</span>
+			
+<span class="nc" id="L101">			try (PreparedStatement statement = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {</span>
+<span class="nc" id="L102">				statement.setString(1, name);</span>
+<span class="nc" id="L103">				statement.setString(2, email);</span>
+<span class="nc" id="L104">				statement.setString(3, pass);</span>
+				
+<span class="nc bnc" id="L106" title="All 2 branches missed.">				if (statement.executeUpdate() == 1) {</span>
+<span class="nc" id="L107">					try (ResultSet resultKeys = statement.getGeneratedKeys()) {</span>
+<span class="nc bnc" id="L108" title="All 2 branches missed.">						if (resultKeys.next()) {</span>
+<span class="nc" id="L109">							return new User(resultKeys.getInt(1), name, email,pass);</span>
+						} else {
+<span class="nc" id="L111">							LOG.log(Level.SEVERE, &quot;Error retrieving inserted id&quot;);</span>
+<span class="nc" id="L112">							throw new SQLException(&quot;Error retrieving inserted id&quot;);</span>
+						}
+<span class="nc bnc" id="L114" title="All 8 branches missed.">					}</span>
+				} else {
+<span class="nc" id="L116">					LOG.log(Level.SEVERE, &quot;Error inserting value&quot;);</span>
+<span class="nc" id="L117">					throw new SQLException(&quot;Error inserting value&quot;);</span>
+				}
+<span class="nc bnc" id="L119" title="All 8 branches missed.">			}</span>
+<span class="nc bnc" id="L120" title="All 8 branches missed.">		} catch (SQLException e) {</span>
+<span class="nc" id="L121">			LOG.log(Level.SEVERE, &quot;Error adding a User&quot;, e);</span>
+<span class="nc" id="L122">			throw new DAOException(e);</span>
+		}
+	}
+	
+	/**
+	 * Modifies a Event previously persisted in the system. The Event will be
+	 * retrieved by the provided id and its current name and surname will be
+	 * repassd with the provided.
+	 * 
+	 * @param Event a {@link Event} entity with the new data.
+	 * @throws DAOException if an error happens while modifying the new Event.
+	 * @throws IllegalArgumentException if the Event is {@code null}.
+	 */
+	public void modify(User user)
+	throws DAOException, IllegalArgumentException {
+<span class="nc bnc" id="L137" title="All 2 branches missed.">		if (user == null) {</span>
+<span class="nc" id="L138">			throw new IllegalArgumentException(&quot;user can't be null&quot;);</span>
+		}
+		
+<span class="nc" id="L141">		try (Connection conn = this.getConnection()) {</span>
+<span class="nc" id="L142">			final String query = &quot;UPDATE users SET name=?, email=?, pass=? WHERE id=?&quot;;</span>
+			
+<span class="nc" id="L144">			try (PreparedStatement statement = conn.prepareStatement(query)) {</span>
+<span class="nc" id="L145">				statement.setString(1, user.getName());</span>
+<span class="nc" id="L146">				statement.setString(2, user.getEmail());</span>
+<span class="nc" id="L147">				statement.setString(3, user.getPass());</span>
+<span class="nc" id="L148">				statement.setInt(4, user.getId());</span>
+				
+<span class="nc bnc" id="L150" title="All 2 branches missed.">				if (statement.executeUpdate() != 1) {</span>
+<span class="nc" id="L151">					throw new IllegalArgumentException(&quot;name and email can't be null&quot;);</span>
+				}
+<span class="nc bnc" id="L153" title="All 8 branches missed.">			}</span>
+<span class="nc bnc" id="L154" title="All 8 branches missed.">		} catch (SQLException e) {</span>
+<span class="nc" id="L155">			LOG.log(Level.SEVERE, &quot;Error modifying a user&quot;, e);</span>
+<span class="nc" id="L156">			throw new DAOException();</span>
+<span class="nc" id="L157">		}</span>
+<span class="nc" id="L158">	}</span>
+	
+	/**
+	 * Removes a persisted event from the system.
+	 * 
+	 * @param id identifier of the event to be deleted.
+	 * @throws DAOException if an error happens while deleting the event.
+	 * @throws IllegalArgumentException if the provided id does not corresponds
+	 * with any persisted event.
+	 */
+	public void delete(int id)
+	throws DAOException, IllegalArgumentException {
+<span class="nc" id="L170">		try (final Connection conn = this.getConnection()) {</span>
+<span class="nc" id="L171">			final String query = &quot;DELETE FROM users WHERE id=?&quot;;</span>
+			
+<span class="nc" id="L173">			try (final PreparedStatement statement = conn.prepareStatement(query)) {</span>
+<span class="nc" id="L174">				statement.setInt(1, id);</span>
+				
+<span class="nc bnc" id="L176" title="All 2 branches missed.">				if (statement.executeUpdate() != 1) {</span>
+<span class="nc" id="L177">					throw new IllegalArgumentException(&quot;Invalid id&quot;);</span>
+				}
+<span class="nc bnc" id="L179" title="All 8 branches missed.">			}</span>
+<span class="nc bnc" id="L180" title="All 8 branches missed.">		} catch (SQLException e) {</span>
+<span class="nc" id="L181">			LOG.log(Level.SEVERE, &quot;Error deleting a user&quot;, e);</span>
+<span class="nc" id="L182">			throw new DAOException(e);</span>
+<span class="nc" id="L183">		}</span>
+<span class="nc" id="L184">	}</span>
+	
+	private User rowToEntity(ResultSet row) throws SQLException {
+<span class="nc" id="L187">		return new User(</span>
+<span class="nc" id="L188">			row.getInt(&quot;id&quot;),</span>
+<span class="nc" id="L189">			row.getString(&quot;name&quot;),</span>
+<span class="nc" id="L190">			row.getString(&quot;email&quot;),</span>
+<span class="nc" id="L191">			row.getString(&quot;pass&quot;)</span>
+		);
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

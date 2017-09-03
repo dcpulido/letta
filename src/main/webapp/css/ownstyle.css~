@@ -1,0 +1,225 @@
+/* SLIDER STYLE */
+h2{
+	font-family: "Dosis-Medium";
+}
+
+.form-group > label{
+    font-weight: bold;
+}
+
+#slideList .info{
+	font-family: "Dosis-Medium";
+	text-align: center;
+	position: relative;
+	z-index: 2;
+	top: -400px;
+    min-width: 300px;
+	color: white;
+	width: 100vw;
+	background-color: rgba(237, 100, 92, 0.7);
+	padding: 20px;
+} 
+
+.flecha{
+    top:-105px;
+}
+
+.caja-evento{
+    height: 300px;
+}
+
+.myImage{
+    width:128px;
+    height:128px;
+}
+
+.myImage2{
+    width:128px;
+    height:128px;
+    position: relative;
+    left: 2%;
+}
+.modal-evento{
+    text-align: left !important;
+    padding: 35px;
+}
+
+.modal-body{
+    text-align: center;
+}
+
+.modal-body .row{
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
+.modal-body >.row:first-child{
+    margin-top: 4px;
+    margin-bottom: 10px;
+}
+
+.modal-body p{
+    font-size: 18px;
+}
+.info > h3{
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.info > .sliderDate{
+    font-size: 15px;
+    color: #E6E6E6;
+}
+
+.info > .sliderPlace{
+    font-size: 15px;
+    color: #E6E6E6;
+}
+
+.info > .sliderDescription{
+    font-size: 15px;
+    margin-top: 10px;
+}
+
+.offers h2{
+	text-align: center;
+	padding-top: 10px;
+}
+
+.text {
+    width: 40vw;
+    padding: 10px;
+    color: #808080;
+    border: 0px;
+}
+
+.busqueda{
+	position: relative;
+    top: 28px;
+    left: 20px;
+    border: solid 1px #ed645c;
+    width: 300px;
+}
+.btn-apuntate{
+    width: 100%;
+}
+.btn-busqueda{
+	position: relative;
+    top: 28px;
+    left: 20px;
+    border: solid 1px #ed645c;
+    color: #ed645c;
+    width: 15%;
+}
+.btn-evento{
+    position: relative;
+    top: 28px;
+    left: 20px;
+    background-color: #ed645c;
+    border: solid 1px #FA7871;
+    color: #fff;
+    width: 25%;
+}
+.btn-evento:hover{
+    background-color: #FA7871;
+    border: solid 1px #ed645c;
+}
+
+button {
+    background: transparent;
+    padding: 9px;
+    box-shadow: unset;
+    border: 1px solid white;
+    color: white;
+    width: 10vw;
+}
+
+#searchResults{
+	display: none;
+}
+@media (max-width: 480px) {
+    .modal-evento label{
+        display: none;
+    }
+    .modal-evento{
+        padding: 0px;
+    }
+    .modal-evento .form-group input{
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+    .flecha{
+        top:-100px;
+    }
+    .form-group{
+        padding-left: 10px;
+    }
+    .modal-evento input{
+        width: 90%;
+    }
+    .modal-evento textarea{
+        width: 90%;
+    }
+    .modal-evento select{
+        width: 90%;
+    }
+    .btn-busqueda {
+        position: relative;
+        top: 29px;
+        left: 22px;
+        border: solid 1px #ed645c;
+        color: #ed645c;
+        width: 20%;
+    }
+    .busqueda{
+        position: relative;
+        top: 28px;
+        left: 19px;
+        border: solid 1px #ed645c;
+        width: 60%;
+    }        
+    .myTop{
+         width: 100%;
+         text-align: center;
+    }
+    .myLogo{
+         width: 100%;
+    }
+    #slideList h3{
+        font-family: "Dosis-Medium";
+        text-align: center;
+        position: relative;
+        z-index: 2;
+        top: 10px;
+        color: white;
+        width: 100vw;
+        background-color: #ed645c;
+        padding: 5px;
+    }
+    .info > h3 {
+        position: relative;
+        left: -6%;
+    }
+    .offers h3:after {
+        top: 10px;
+        right: 15px;
+    }
+    .offers h3:before {
+        top: 10px;
+        left: 15px;
+    }
+    .btn-registrar{
+        font-size: 11px;
+        width: 50%;
+        margin: 5px;
+    }
+    .btn-cerrar{
+        font-size: 11px;
+        width: 40%;
+        margin: 5px;
+    }
+    .btn-evento{
+        width: 200px;
+        margin-top: 10px;
+    }
+}
